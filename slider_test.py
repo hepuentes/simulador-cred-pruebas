@@ -19,14 +19,12 @@ st.markdown("""
         background-color: #1E1E1E;
     }
 
-    /* Contenedor principal */
     .container {
         max-width: 600px;
         margin: 0 auto;
         padding: 20px;
     }
 
-    /* Título y valor */
     .monto-title {
         color: white;
         font-size: 1.3rem;
@@ -42,11 +40,7 @@ st.markdown("""
         margin-bottom: 2rem;
     }
 
-    /* Slider */
-    .stSlider {
-        margin: 2rem 0;
-    }
-
+    /* Slider único */
     .stSlider > div > div > div {
         background: #4B5563 !important;
         height: 6px !important;
@@ -62,13 +56,13 @@ st.markdown("""
         top: -7px !important;
     }
 
-    /* Ocultar elementos del slider */
+    /* Ocultar elementos innecesarios */
     .stSlider [data-baseweb="slider"] div[role="slider"] div,
     .stSlider [data-baseweb="tooltip"] {
         display: none !important;
     }
 
-    /* Valores min/max (solo un set) */
+    /* Un solo set de valores min/max */
     .minmax-values {
         display: flex;
         justify-content: space-between;
@@ -82,46 +76,31 @@ st.markdown("""
 
 st.markdown('<div class="container">', unsafe_allow_html=True)
 
-# 1. Título "¿Cuánto necesitas?"
+# Título
 st.markdown('<div class="monto-title">¿Cuánto necesitas?</div>', unsafe_allow_html=True)
 
 detalles = LINEAS_DE_CREDITO["LoansiFlex"]
 
-# 2. Valor seleccionado
-monto = st.number_input(
+# Valor y slider en un solo elemento
+monto = st.slider(
     "",
     min_value=detalles["monto_min"],
     max_value=detalles["monto_max"],
-    value=detalles["monto_min"],
     step=50000,
-    format="%d",
     label_visibility="collapsed"
 )
 
+# Mostrar valor seleccionado
 st.markdown(f'<div class="monto-value">$ {format_number(monto)}</div>', unsafe_allow_html=True)
 
-# 3. Slider y un solo set de valores min/max
+# Barra de progreso y valores min/max
 progress = ((monto - detalles["monto_min"]) / (detalles["monto_max"] - detalles["monto_min"])) * 100
 st.markdown(f"""
 <style>
-    .stSlider > div > div > div {{
+    div[data-testid="stSlider"] > div > div > div {{
         background: linear-gradient(to right, #FF4B4B {progress}%, #4B5563 {progress}%) !important;
     }}
 </style>
-""", unsafe_allow_html=True)
-
-st.slider(
-    "",
-    min_value=detalles["monto_min"],
-    max_value=detalles["monto_max"],
-    value=monto,
-    step=50000,
-    label_visibility="collapsed",
-    key="slider_visual"
-)
-
-# Solo un set de valores min/max
-st.markdown(f"""
 <div class="minmax-values">
     <span>{format_number(detalles["monto_min"])}</span>
     <span>{format_number(detalles["monto_max"])}</span>

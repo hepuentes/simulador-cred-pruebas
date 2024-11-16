@@ -15,7 +15,7 @@ LINEAS_DE_CREDITO = {
     }
 }
 
-# Estilos
+# Estilos mejorados
 st.markdown("""
 <style>
     .stApp {
@@ -25,36 +25,44 @@ st.markdown("""
     .main-container {
         max-width: 600px;
         margin: 0 auto;
-        padding: 0 1rem;
     }
 
+    /* Título y valor */
     .monto-title {
         color: white;
         font-size: 1.3rem;
-        text-align: center;
-        margin: 2rem 0 1rem 0;
+        text-align: left;
+        margin: 2rem 0 1.5rem 0;
     }
 
     .monto-value {
         color: #3B82F6;
         font-size: 2.8rem;
         font-weight: 700;
-        text-align: center;
-        margin: 1rem 0 2rem 0;
+        margin: 0.5rem 0 2rem 0;
     }
 
-    /* Slider */
+    /* Contenedor del slider */
+    .slider-container {
+        position: relative;
+        width: 100%;
+        margin: 0 10px;
+    }
+
+    /* Slider base */
     .stSlider > div {
         padding: 0 !important;
     }
 
-    div[data-testid="stSlider"] > div > div > div {
-        background: #4B5563 !important;
+    .stSlider > div > div > div {
+        background: linear-gradient(90deg, #FF4B4B var(--progress), #4B5563 var(--progress)) !important;
         height: 6px !important;
         border-radius: 3px !important;
+        width: calc(100% - 20px) !important;
     }
 
-    div[data-testid="stSlider"] [role="slider"] {
+    /* Botón del slider */
+    .stSlider [role="slider"] {
         width: 20px !important;
         height: 20px !important;
         background: #3B82F6 !important;
@@ -64,34 +72,36 @@ st.markdown("""
         box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
     }
 
-    /* Ocultar elementos del slider */
+    /* Ocultar elementos innecesarios */
     .stSlider [data-baseweb="slider"] div[role="slider"] div,
     .stSlider [data-baseweb="tooltip"] {
         display: none !important;
     }
 
-    /* Valores min/max */
+    /* Valores min/max únicos */
     .minmax-values {
         display: flex;
         justify-content: space-between;
         color: white;
         font-size: 0.9rem;
-        margin-top: 0.5rem;
-        padding: 0 0.5rem;
+        opacity: 0.8;
+        margin: 0.5rem 10px;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Contenedor principal
+# Layout principal
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
-# Título
-st.markdown('<div class="monto-title">¿Cuánto necesitas?</div>', unsafe_allow_html=True)
+# Título "¿Cuánto necesitas?"
+st.markdown('<p class="monto-title">¿Cuánto necesitas?</p>', unsafe_allow_html=True)
 
-# Detalles del crédito seleccionado
+# Contenedor del slider
+st.markdown('<div class="slider-container">', unsafe_allow_html=True)
+
 detalles = LINEAS_DE_CREDITO["LoansiFlex"]
 
-# Slider con valor seleccionado
+# Slider
 monto = st.slider(
     "",
     min_value=detalles["monto_min"],
@@ -100,20 +110,21 @@ monto = st.slider(
     label_visibility="collapsed"
 )
 
-# Mostrar valor seleccionado
+# Valor seleccionado debajo del título
 st.markdown(f'<div class="monto-value">$ {format_number(monto)}</div>', unsafe_allow_html=True)
 
-# Progress bar y valores min/max
+# Un solo set de valores min/max
 progress = ((monto - detalles["monto_min"]) / (detalles["monto_max"] - detalles["monto_min"])) * 100
 st.markdown(f"""
 <style>
-    div[data-testid="stSlider"] > div > div > div {{
-        background: linear-gradient(to right, #FF4B4B {progress}%, #4B5563 {progress}%) !important;
+    .stSlider > div > div > div {{
+        --progress: {progress}%;
     }}
 </style>
 <div class="minmax-values">
     <span>{format_number(detalles["monto_min"])}</span>
     <span>{format_number(detalles["monto_max"])}</span>
+</div>
 </div>
 </div>
 """, unsafe_allow_html=True)

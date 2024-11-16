@@ -19,12 +19,19 @@ st.markdown("""
         background-color: #1E1E1E;
     }
 
-    /* Título y valor centrados */
+    /* Contenedor principal */
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Título y valor */
     .monto-title {
         color: white;
         font-size: 1.3rem;
         text-align: center;
-        margin: 2rem 0 1rem 0;
+        margin-bottom: 1.5rem;
     }
 
     .monto-value {
@@ -32,19 +39,16 @@ st.markdown("""
         font-size: 2.8rem;
         font-weight: 700;
         text-align: center;
-        margin: 1rem 0;
+        margin-bottom: 2rem;
     }
 
-    /* Slider único sin duplicados */
-    .slider-container {
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 0 10px;
+    /* Slider */
+    .stSlider {
+        margin: 2rem 0;
     }
 
     .stSlider > div > div > div {
-        background: linear-gradient(90deg, #FF4B4B var(--progress), #4B5563 var(--progress)) !important;
+        background: #4B5563 !important;
         height: 6px !important;
         border-radius: 3px !important;
     }
@@ -58,51 +62,66 @@ st.markdown("""
         top: -7px !important;
     }
 
-    /* Ocultar elementos innecesarios */
+    /* Ocultar elementos del slider */
     .stSlider [data-baseweb="slider"] div[role="slider"] div,
     .stSlider [data-baseweb="tooltip"] {
         display: none !important;
     }
 
-    /* Un solo set de valores min/max */
+    /* Valores min/max (solo un set) */
     .minmax-values {
         display: flex;
         justify-content: space-between;
         color: white;
         font-size: 0.9rem;
+        opacity: 0.8;
         margin-top: 0.5rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Título centrado
+st.markdown('<div class="container">', unsafe_allow_html=True)
+
+# 1. Título "¿Cuánto necesitas?"
 st.markdown('<div class="monto-title">¿Cuánto necesitas?</div>', unsafe_allow_html=True)
 
 detalles = LINEAS_DE_CREDITO["LoansiFlex"]
 
-# Contenedor del slider
-st.markdown('<div class="slider-container">', unsafe_allow_html=True)
-
-# Valor centrado
-monto = st.slider(
+# 2. Valor seleccionado
+monto = st.number_input(
     "",
     min_value=detalles["monto_min"],
     max_value=detalles["monto_max"],
+    value=detalles["monto_min"],
     step=50000,
+    format="%d",
     label_visibility="collapsed"
 )
 
-# Valor seleccionado centrado
 st.markdown(f'<div class="monto-value">$ {format_number(monto)}</div>', unsafe_allow_html=True)
 
-# Solo un set de valores min/max
+# 3. Slider y un solo set de valores min/max
 progress = ((monto - detalles["monto_min"]) / (detalles["monto_max"] - detalles["monto_min"])) * 100
 st.markdown(f"""
 <style>
     .stSlider > div > div > div {{
-        --progress: {progress}%;
+        background: linear-gradient(to right, #FF4B4B {progress}%, #4B5563 {progress}%) !important;
     }}
 </style>
+""", unsafe_allow_html=True)
+
+st.slider(
+    "",
+    min_value=detalles["monto_min"],
+    max_value=detalles["monto_max"],
+    value=monto,
+    step=50000,
+    label_visibility="collapsed",
+    key="slider_visual"
+)
+
+# Solo un set de valores min/max
+st.markdown(f"""
 <div class="minmax-values">
     <span>{format_number(detalles["monto_min"])}</span>
     <span>{format_number(detalles["monto_max"])}</span>

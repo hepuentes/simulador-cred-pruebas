@@ -162,7 +162,7 @@ st.markdown(f"<p class='description-text'>{detalles['descripcion']}</p>", unsafe
 st.markdown("<p style='color: #FFFFFF; font-size: 1.4rem; font-weight: 700; margin: 1.5rem 0 0.2rem;'>Escribe el valor del crédito</p>", unsafe_allow_html=True)
 st.markdown(f"<p class='value-description'>Ingresa un valor entre $ {format_number(detalles['monto_min'])} y $ {format_number(detalles['monto_max'])} COP</p>", unsafe_allow_html=True)
 
-col1, col2 = st.columns([0.5,20])
+col1, col2 = st.columns([0.1,09])
 with col1:
     st.markdown('<div class="currency-symbol">$</div>', unsafe_allow_html=True)
 with col2:

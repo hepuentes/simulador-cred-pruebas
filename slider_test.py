@@ -29,7 +29,7 @@ st.markdown("""
     .titulo {
         color: white;
         font-size: 1.5rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     .valor-seleccionado {
         color: #3B82F6;
@@ -58,9 +58,7 @@ st.markdown("""
         color: white;
         font-size: 1rem;
         margin-top: 1rem;
-    }
-    .valores-minmax span {
-        margin: 0 10px;
+        padding: 0 10px;
     }
 </style>
 """, unsafe_allow_html=True)

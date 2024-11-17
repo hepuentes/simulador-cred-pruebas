@@ -1,53 +1,54 @@
 import streamlit as st
 
 # Configuración inicial
-st.set_page_config(page_title="Prueba Slider", layout="centered")
+st.set_page_config(page_title="Simulador Crédito", layout="centered", initial_sidebar_state="collapsed")
 
 def format_number(number):
     return "{:,.0f}".format(number).replace(",", ".")
 
-LINEAS_DE_CREDITO = {
-    "LoansiFlex": {
-        "monto_min": 1000000,
-        "monto_max": 20000000,
-    }
-}
+# Valores del slider
+MIN_VALUE = 1000000
+MAX_VALUE = 20000000
 
 st.markdown("""
 <style>
     .stApp {
         background-color: #1E1E1E;
     }
-
-    .container {
+    
+    .main-container {
+        width: 100%;
         max-width: 600px;
         margin: 0 auto;
-        padding: 20px;
     }
-
-    .monto-title {
+    
+    .titulo {
         color: white;
         font-size: 1.3rem;
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin: 2rem 0;
     }
-
-    .monto-value {
+    
+    .valor-seleccionado {
         color: #3B82F6;
         font-size: 2.8rem;
         font-weight: 700;
         text-align: center;
-        margin-bottom: 2rem;
+        margin: 1.5rem 0;
     }
-
-    /* Slider único */
+    
+    /* Slider personalizado */
+    .stSlider {
+        position: relative;
+        margin: 3rem 0;
+    }
+    
     .stSlider > div > div > div {
-        background: #4B5563 !important;
+        background: linear-gradient(to right, #FF4B4B var(--progress), #4B5563 var(--progress)) !important;
         height: 6px !important;
-        border-radius: 3px !important;
     }
-
-    .stSlider [role="slider"] {
+    
+    div[role="slider"] {
         width: 20px !important;
         height: 20px !important;
         background: #3B82F6 !important;
@@ -55,55 +56,41 @@ st.markdown("""
         border-radius: 50% !important;
         top: -7px !important;
     }
-
-    /* Ocultar elementos innecesarios */
-    .stSlider [data-baseweb="slider"] div[role="slider"] div,
-    .stSlider [data-baseweb="tooltip"] {
-        display: none !important;
-    }
-
-    /* Un solo set de valores min/max */
-    .minmax-values {
+    
+    /* Valores min/max */
+    .valores-minmax {
         display: flex;
         justify-content: space-between;
         color: white;
         font-size: 0.9rem;
-        opacity: 0.8;
         margin-top: 0.5rem;
+    }
+    
+    /* Ocultar elementos innecesarios */
+    .stSlider [data-baseweb] div[role="slider"] div,
+    .stSlider [data-baseweb="tooltip"] {
+        display: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="container">', unsafe_allow_html=True)
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
+st.markdown('<div class="titulo">¿Cuánto necesitas?</div>', unsafe_allow_html=True)
 
-# Título
-st.markdown('<div class="monto-title">¿Cuánto necesitas?</div>', unsafe_allow_html=True)
+monto = st.slider("", min_value=MIN_VALUE, max_value=MAX_VALUE, step=50000, label_visibility="collapsed")
 
-detalles = LINEAS_DE_CREDITO["LoansiFlex"]
+st.markdown(f'<div class="valor-seleccionado">$ {format_number(monto)}</div>', unsafe_allow_html=True)
 
-# Valor y slider en un solo elemento
-monto = st.slider(
-    "",
-    min_value=detalles["monto_min"],
-    max_value=detalles["monto_max"],
-    step=50000,
-    label_visibility="collapsed"
-)
-
-# Mostrar valor seleccionado
-st.markdown(f'<div class="monto-value">$ {format_number(monto)}</div>', unsafe_allow_html=True)
-
-# Barra de progreso y valores min/max
-progress = ((monto - detalles["monto_min"]) / (detalles["monto_max"] - detalles["monto_min"])) * 100
+progress = ((monto - MIN_VALUE) / (MAX_VALUE - MIN_VALUE)) * 100
 st.markdown(f"""
 <style>
-    div[data-testid="stSlider"] > div > div > div {{
-        background: linear-gradient(to right, #FF4B4B {progress}%, #4B5563 {progress}%) !important;
+    .stSlider > div > div > div {{
+        --progress: {progress}%;
     }}
 </style>
-<div class="minmax-values">
-    <span>{format_number(detalles["monto_min"])}</span>
-    <span>{format_number(detalles["monto_max"])}</span>
+<div class="valores-minmax">
+    <span>{format_number(MIN_VALUE)}</span>
+    <span>{format_number(MAX_VALUE)}</span>
 </div>
 </div>
 """, unsafe_allow_html=True)

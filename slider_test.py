@@ -7,7 +7,7 @@ def format_number(number):
 # Datos para cada línea de crédito
 LINEAS_DE_CREDITO = {
     "LoansiFlex": {
-        "descripcion": "Crédito de libre inversión para empleados, independientes, personas naturales y pensionados.",
+        "descripcion": "Crédito de libre inversión para empleados, independientes, personas naturales y pensionados que puedan demostrar ingresos..",
         "monto_min": 1000000,
         "monto_max": 20000000,
         "plazo_min": 12,
@@ -18,7 +18,7 @@ LINEAS_DE_CREDITO = {
         "seguro_vida_base": 150000
     },
     "Microflex": {
-        "descripcion": "Crédito rotativo para personas en sectores informales, orientado a cubrir necesidades de liquidez rápida con pagos semanales.",
+        "descripcion": "Microflex es un crédito pensado especialmente para personas que trabajan de manera informal y necesitan liquidez rápida. Es una solución fácil y práctica con pagos semanales, ideal para quienes buscan una alternativa confiable al crédito gota a gota. Como es un crédito rotativo, solo pagas el aval y los costos asociados la primera vez. Si necesitas un nuevo crédito por un valor mayor, estos costos se ajustarán al nuevo monto solicitado. ¡Obtén tu crédito con Microflex y olvídate de las complicaciones del crédito informal!",
         "monto_min": 50000,
         "monto_max": 500000,
         "plazo_min": 4,
@@ -148,8 +148,6 @@ st.markdown("""
         }
     </style>
 """, unsafe_allow_html=True)
-
-st.markdown("<h1>Simulador de Crédito Loansi</h1>", unsafe_allow_html=True)
 
 # Selección de línea de crédito
 st.markdown("<p style='color: #FFFFFF; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem;'>Selecciona la Línea de Crédito</p>", unsafe_allow_html=True)

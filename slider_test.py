@@ -10,37 +10,40 @@ def format_number(number):
 MIN_VALUE = 1000000
 MAX_VALUE = 20000000
 
+# Estilos personalizados con correcciones
 st.markdown("""
 <style>
     .stApp {
         background-color: #1E1E1E;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     .main-container {
-        width: 100%;
         max-width: 600px;
+        width: 100%;
         margin: 0 auto;
+        padding: 20px;
     }
     
     .titulo {
         color: white;
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         text-align: center;
-        margin: 2rem 0;
+        margin: 1.5rem 0 1rem 0;
     }
     
     .valor-seleccionado {
         color: #3B82F6;
-        font-size: 2.8rem;
-        font-weight: 700;
+        font-size: 2.5rem;
+        font-weight: bold;
         text-align: center;
-        margin: 1.5rem 0;
+        margin: 1rem 0;
     }
     
-    /* Slider personalizado */
     .stSlider {
-        position: relative;
-        margin: 3rem 0;
+        margin: 2rem 0 !important;
     }
     
     .stSlider > div > div > div {
@@ -49,38 +52,39 @@ st.markdown("""
     }
     
     div[role="slider"] {
-        width: 20px !important;
-        height: 20px !important;
+        width: 24px !important;
+        height: 24px !important;
         background: #3B82F6 !important;
         border: 2px solid white !important;
         border-radius: 50% !important;
-        top: -7px !important;
+        top: -10px !important;
     }
     
-    /* Valores min/max */
     .valores-minmax {
         display: flex;
         justify-content: space-between;
         color: white;
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
-    }
-    
-    /* Ocultar elementos innecesarios */
-    .stSlider [data-baseweb] div[role="slider"] div,
-    .stSlider [data-baseweb="tooltip"] {
-        display: none !important;
+        font-size: 1rem;
+        margin-top: 1rem;
+        margin-left: 5px;
+        margin-right: 5px;
     }
 </style>
 """, unsafe_allow_html=True)
 
+# Contenedor principal
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
+
+# Título
 st.markdown('<div class="titulo">¿Cuánto necesitas?</div>', unsafe_allow_html=True)
 
+# Slider para el monto
 monto = st.slider("", min_value=MIN_VALUE, max_value=MAX_VALUE, step=50000, label_visibility="collapsed")
 
+# Valor seleccionado en azul
 st.markdown(f'<div class="valor-seleccionado">$ {format_number(monto)}</div>', unsafe_allow_html=True)
 
+# Progreso del slider
 progress = ((monto - MIN_VALUE) / (MAX_VALUE - MIN_VALUE)) * 100
 st.markdown(f"""
 <style>
@@ -88,6 +92,10 @@ st.markdown(f"""
         --progress: {progress}%;
     }}
 </style>
+""", unsafe_allow_html=True)
+
+# Valores mínimo y máximo
+st.markdown(f"""
 <div class="valores-minmax">
     <span>{format_number(MIN_VALUE)}</span>
     <span>{format_number(MAX_VALUE)}</span>

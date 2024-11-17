@@ -15,7 +15,8 @@ LINEAS_DE_CREDITO = {
         "tasa_mensual": 1.9715,
         "tasa_anual_efectiva": 26.4,
         "aval_porcentaje": 0.10,
-        "seguro_vida_base": 150000
+        "seguro_vida_base": 150000,
+        "incremento_monto": 50000
     },
     "Microflex": {
         "descripcion": "Microflex es un crédito pensado especialmente para personas que trabajan de manera informal y necesitan liquidez rápida. Es una solución fácil y práctica con pagos semanales, ideal para quienes buscan una alternativa confiable al crédito gota a gota. Como es un crédito rotativo, solo pagas el aval y los costos asociados la primera vez. Si necesitas un nuevo crédito por un valor mayor, estos costos se ajustarán al nuevo monto solicitado. ¡Obtén tu crédito con Microflex y olvídate de las complicaciones del crédito informal!",
@@ -26,6 +27,7 @@ LINEAS_DE_CREDITO = {
         "tasa_mensual": 2.0718,
         "tasa_anual_efectiva": 27.9,
         "aval_porcentaje": 0.12,
+        "incremento_monto": 10000
     }
 }
 
@@ -88,8 +90,8 @@ st.markdown("""
         .currency-symbol {
             font-size: 1.3rem;
             color: #FFFFFF;
-            margin-top: 0.7rem;
-            margin-left: 0.2rem;
+            margin-top: 0.3rem;
+            margin-right: 0.5rem;
         }
 
         .result-box {
@@ -167,7 +169,7 @@ with col2:
     monto = st.number_input("", 
                            min_value=detalles["monto_min"],
                            max_value=detalles["monto_max"],
-                           step=1000,
+                           step=detalles["incremento_monto"],
                            format="%d",
                            key="monto_input")
 

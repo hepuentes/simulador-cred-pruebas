@@ -167,7 +167,7 @@ with col2:
     monto = st.number_input("", 
                            min_value=detalles["monto_min"],
                            max_value=detalles["monto_max"],
-                           step=1000,
+                           step=10000,
                            format="%d",
                            key="monto_input")
 

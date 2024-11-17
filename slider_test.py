@@ -31,13 +31,14 @@ LINEAS_DE_CREDITO = {
     }
 }
 
+# Calcular seguro de vida (aplica solo para LoansiFlex)
+def calcular_seguro_vida(plazo, seguro_vida_base):
+    años = plazo // 12
+    return seguro_vida_base * años if años >= 1 else 0
+
 # Estilos personalizados
 st.markdown("""
 <style>
-    .main {
-        background-color: #ffffff;
-        font-family: 'Inter', sans-serif;
-    }
     .currency-symbol {
         font-size: 1.3rem;
         color: #FFFFFF;

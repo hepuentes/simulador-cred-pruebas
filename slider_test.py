@@ -87,11 +87,15 @@ st.markdown("""
             font-size: 1.2rem !important;
         }
 
+        .stSlider .stMarkLabel {
+            font-size: 1.1rem !important;
+        }
+
         .currency-symbol {
             font-size: 1.3rem;
             color: #FFFFFF;
-            margin-top: 0.3rem;
-            margin-right: 0.5rem;
+            margin-top: 1.3rem;  /* Ajustado */
+            margin-right: 0.3rem;  /* Ajustado */
         }
 
         .result-box {

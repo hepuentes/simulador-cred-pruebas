@@ -86,13 +86,13 @@ plazo = st.radio(
     key="plazo_radio"
 )
 
-# Calcular y mostrar el resultado
+# Cálculos y resultados (sin cambios)
 aval = monto * detalles["aval_porcentaje"]
-seguro_vida = detalles.get("seguro_vida_base", 0) * (plazo // 12) if tipo_credito == "LoansiFlex" else 0
+seguro_vida = calcular_seguro_vida(plazo, detalles.get("seguro_vida_base", 0)) if tipo_credito == "LoansiFlex" else 0
 total_financiar = monto + aval + seguro_vida
-tasa_mensual = detalles["tasa_mensual"] / 100
-cuota = (total_financiar * tasa_mensual) / (1 - (1 + tasa_mensual) ** -plazo)
+cuota = (total_financiar * (detalles["tasa_mensual"] / 100)) / (1 - (1 + detalles["tasa_mensual"] / 100) ** -plazo)
 
+# Mostrar resultado
 st.markdown(f"""
 <div>
     <p><b>Monto:</b> $ {format_number(monto)}</p>
@@ -101,7 +101,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# Detalles del crédito
+# Detalles del crédito (sin cambios)
 with st.expander("Ver Detalles del Crédito"):
     st.markdown(f"""
     <ul>

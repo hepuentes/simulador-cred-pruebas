@@ -1,95 +1,56 @@
-import streamlit as st
-
-# Configuración inicial
-st.set_page_config(page_title="Simulador Crédito", layout="centered", initial_sidebar_state="collapsed")
-
-# Función para formatear números con separadores de miles
-def format_number(number):
-    return "{:,.0f}".format(number).replace(",", ".")
-
-# Datos básicos
-MIN_VALUE = 1000000
-MAX_VALUE = 20000000
-
-# Estilos personalizados
+# Actualizar estos estilos específicamente
 st.markdown("""
-<style>
-    .stApp {
-        background-color: #1E1E1E;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .main-container {
-        max-width: 600px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    .titulo {
-        color: white;
-        font-size: 1.5rem;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    .currency-input {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-    .currency-symbol {
-        font-size: 1.5rem;
-        color: #FFFFFF;
-        margin-right: 10px;
-    }
-    .number-input {
-        width: 100%;
-    }
-    .stSlider {
-        margin-top: 25px !important;
-    }
-    .titulo-slider {
-        color: white;
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-    }
-</style>
+    <style>
+        /* Campo de entrada con símbolo $ */
+        .currency-input-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0 2.5rem 0;  /* Aumentado el margen inferior */
+        }
+
+        .currency-symbol {
+            font-size: 1.3rem;
+            color: #FFFFFF;
+            font-weight: 500;
+            padding-top: 0.5rem;  /* Ajustado para alinear con el input */
+        }
+
+        /* Ajustes del input */
+        .stNumberInput > div > div > input {
+            padding-left: 1rem !important;
+            height: 3rem !important;
+        }
+
+        /* Espaciado del slider */
+        .plazo-text {
+            color: #FFFFFF !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
+            margin: 2rem 0 1rem 0 !important;  /* Ajustado el espaciado */
+        }
+
+        .stSlider {
+            padding-top: 0.5rem !important;
+            margin-bottom: 2rem !important;
+        }
+    </style>
 """, unsafe_allow_html=True)
 
-# Contenedor principal
-st.markdown('<div class="main-container">', unsafe_allow_html=True)
+# Modificar la estructura del campo de entrada
+st.markdown("<p style='color: #FFFFFF; font-size: 1.4rem; font-weight: 700; margin: 1.5rem 0 0.2rem;'>Escribe el valor del crédito</p>", unsafe_allow_html=True)
+st.markdown(f"<p class='value-description'>Ingresa un valor entre $ {format_number(detalles['monto_min'])} y $ {format_number(detalles['monto_max'])} COP</p>", unsafe_allow_html=True)
 
-# Título principal
-st.markdown('<div class="titulo">Simulador de Crédito Loansi</div>', unsafe_allow_html=True)
-
-# Entrada del monto con símbolo de peso alineado
-st.markdown('<div class="currency-input">', unsafe_allow_html=True)
-st.markdown('<span class="currency-symbol">$</span>', unsafe_allow_html=True)
-monto = st.number_input(
-    "Ingresa un valor entre $ 1.000.000 y $ 20.000.000 COP",
-    min_value=MIN_VALUE,
-    max_value=MAX_VALUE,
-    step=50000,
-    format="%d",
-    label_visibility="collapsed"
-)
+# Contenedor para el símbolo $ y el input
+st.markdown('<div class="currency-input-container">', unsafe_allow_html=True)
+col1, col2 = st.columns([0.5,20])
+with col1:
+    st.markdown('<div class="currency-symbol">$</div>', unsafe_allow_html=True)
+with col2:
+    monto = st.number_input("", 
+                           min_value=detalles["monto_min"],
+                           max_value=detalles["monto_max"],
+                           step=1000,
+                           format="%d",
+                           key="monto_input")
 st.markdown('</div>', unsafe_allow_html=True)
-
-# Separación adicional para un espaciado limpio
-st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
-
-# Título del slider
-st.markdown('<div class="titulo-slider">Plazo en Meses</div>', unsafe_allow_html=True)
-
-# Slider de plazo
-plazo = st.slider("", min_value=12, max_value=60, step=12)
-
-# Espaciado limpio debajo del slider
-st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-
-# Resultado dinámico
-st.markdown(f"""
-<div class="titulo">
-    Resultado: $ {format_number(monto)} en {plazo} meses
-</div>
-""", unsafe_allow_html=True)

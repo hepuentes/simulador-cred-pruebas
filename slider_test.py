@@ -29,11 +29,6 @@ LINEAS_DE_CREDITO = {
     }
 }
 
-# Calcular seguro de vida (aplica solo para LoansiFlex)
-def calcular_seguro_vida(plazo, seguro_vida_base):
-    años = plazo // 12
-    return seguro_vida_base * años if años >= 1 else 0
-
 # Estilos personalizados
 st.markdown("""
 <style>
@@ -51,15 +46,6 @@ st.markdown("""
     .stNumberInput input {
         text-align: left;
     }
-    .final-message {
-        margin-top: 30px;
-        padding: 10px;
-        background-color: #F0F0F0;
-        border-radius: 5px;
-        color: #333333;
-        text-align: center;
-        font-size: 0.9rem;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -74,7 +60,7 @@ st.markdown(f"**Descripción:** {detalles['descripcion']}")
 st.markdown("<p>Escribe el valor del crédito:</p>", unsafe_allow_html=True)
 col1, col2 = st.columns([0.1, 0.9])
 with col1:
-    st.markdown("<div class='currency-symbol'>$</div>", unsafe_allow_html=True)
+    st.markdown("<div style='font-size: 1.3rem; color: white; text-align: center;'>$</div>", unsafe_allow_html=True)
 with col2:
     monto = st.slider(
         "",
@@ -113,9 +99,7 @@ with st.expander("Ver Detalles del Crédito"):
     **Tasa Mensual:** {detalles['tasa_mensual']}%  
     """)
 
-# Mensaje final separado
+# Mensaje final
 st.markdown("""
-<div class="final-message">
-    <b>Nota:</b> Los valores mostrados son aproximados y de carácter informativo. El incumplimiento en los pagos puede generar intereses moratorios y gastos adicionales. Aplica condiciones y está sujeto a estudio de crédito.
-</div>
-""", unsafe_allow_html=True)
+    **Nota:** Los valores mostrados son aproximados y de carácter informativo. El incumplimiento en los pagos puede generar intereses moratorios y gastos adicionales. Aplica condiciones y está sujeto a estudio de crédito.
+""")
